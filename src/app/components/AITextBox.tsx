@@ -7,7 +7,7 @@ type Props = {}
 
 const AITextBox = (props: Props) => {
   return (
-      <div className="flex flex-col-reverse p-6 h-screen w-full relative items-center gap-20">
+      <div className="flex flex-col-reverse px-4 py-5 h-screen max-w-[790px] relative items-center gap-5">
 
           <div className="flex flex-row max-w-[790px] gap-2 items-center border-2 border-black rounded-lg">
               <input placeholder="Hey Shivam, Here to help for your financials" autoFocus={false}
@@ -17,13 +17,15 @@ const AITextBox = (props: Props) => {
               </button>
           </div>
 
-          <div className="absolute left-[470px] bottom-[110px]">
+          <div className="self-start">
               <DidYouKnow/>
-          </div>
+              </div>
 
-          <div className="absolute left-[470px] bottom-[200px]">
-              <TextHello/>
-          </div>
+            <div className="self-start">
+            <TextHello/>
+            </div>
+
+          
       </div>
 
   )
