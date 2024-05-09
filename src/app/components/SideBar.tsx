@@ -7,7 +7,7 @@ function SideBar({}: Props) {
   return (
     <div className='flex flex-col'>
         
-        <div className='flex flex-col h-screen min-w-[230px] rounded-r-xl p-0 gap-4 justify-stretch'>
+        <div className='flex flex-col h-screen min-w-[250px] p-0 gap-4 justify-stretch border-gray-400'>
             
             <div className='max-h-[100] max-w-[100] px-7 py-5'>
             <Image src={Logo} alt='Logo' width={80} height={100}></Image>

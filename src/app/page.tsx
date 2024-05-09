@@ -8,15 +8,11 @@ import SideBar from "./components/SideBar";
 
 export default function Home() {
   return (
-    <main className="bg-white flex flex-row justify-center" >
+    <main className="bg-[#131314] flex flex-row items-center justify-center" >
 
-      <div className="fixed left-0">
-      <SideBar/>
-      </div>
-
-      <div className="flex flex-col items-center">
+      
         <AITextBox />
-      </div>
+
   
     </main>
   );
