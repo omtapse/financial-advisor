@@ -14,9 +14,26 @@ interface appStore {
     currentChat: any | null
     setCurrentChat: (data: any) => void
     pushChat: (chat: any) => void
+
+    values: null | {
+        monthlyIncome: string,
+        monthlyExpense: string,
+        variableExpense: string
+        savings: string
+    },
+    setValues: (data: any) => void
 }
 
 export const useAppStore = create<appStore>((set, get) => ({
+    values: {
+        monthlyIncome: '',
+        monthlyExpense: '',
+        variableExpense: '',
+        savings: ''
+    },
+    setValues(data) {
+        set({ values: data })
+    },
     istemplateOpen: false,
     infoState: null,
     setCurrentChat(chat: any) {

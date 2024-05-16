@@ -21,7 +21,7 @@ function ChatItem({ chat }: any) {
     </div>
     <div className="flex">
       <span className="w-max">advisor : </span>
-      <Markdown >{chat.answer}</Markdown>
+      {chat.answer}
     </div>
   </div>
 }
@@ -41,13 +41,16 @@ function ChatBox() {
   }, [inView])
 
   return <div className="h-screen max-w-3xl overflow-auto space-y-3 mb-12 no-bar">
-    <div className="  no-bar self-start">
-      <DidYouKnow />
-    </div>
 
     <div className="self-start">
       <TextHello />
     </div>
+
+    <div className="  no-bar self-start">
+      <DidYouKnow />
+    </div>
+
+
 
     <FinanceForm setInfoState={setInfoState} className={`${istemplateOpen ? 'h-[500px]' : 'h-[1px]'}  overflow-hidden  transition-all duration-300 `} />
     <FinanceForm2 className={`${istemplateOpen && infoState === AppStates.EXTRA ? 'h-[350px]' : ' h-[1px]'} transition-all duration-300 overflow-hidden `} />
@@ -115,26 +118,33 @@ function SearchComponent() {
     inputRef.current.value = '';
     inputRef.current.focus();
 
-    let chat = {
+    let chati = {
       _id: uuid(),
       question: query,
       answer: ''
     }
-    setCurrentChat(chat)
+    setCurrentChat(chati)
     try {
+
+      let messages = chat.map((item) => (
+        [{ role: 'system', content: item.answer },
+        { role: 'user', content: item.question }])
+      )
+      messages.push([
+        {
+          role: 'system',
+          content: 'You are a helpful assistant.'
+        },
+        {
+          role: 'user',
+          content: query
+        }
+      ])
+      let newMessages = messages.flat()
 
       const response = await POST({
         json: async () => ({
-          messages: [
-            {
-              role: 'system',
-              content: 'You are a helpful assistant.'
-            },
-            {
-              role: 'user',
-              content: query
-            }
-          ]
+          messages: newMessages
         })
       } as Request);
 
@@ -151,7 +161,7 @@ function SearchComponent() {
 
         answer = answer + chunkValue.replace('0:', '')
         let newChat = {
-          ...chat,
+          ...chati,
           answer: answer
         }
         setCurrentChat(newChat)
