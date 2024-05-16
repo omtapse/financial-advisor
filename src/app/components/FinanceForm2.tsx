@@ -18,18 +18,18 @@ function FinanceForm2({ className, }: any) {
 
     const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '');
 
-    const key = process.env.OPENAI_API_KEY as string;
+    const key = process.env.NEXT_PUBLIC_OPENAI_API_KEY as string;
     const endpoint = "https://bizmorpenai24.openai.azure.com/";
     const client = new OpenAIClient(endpoint, new AzureKeyCredential(key));
 
-    const buildGoogleGenAIPrompt = (messages: Message[]) => ({
-        contents: messages
-            .filter(message => message.role === 'user' || message.role === 'assistant')
-            .map(message => ({
-                role: message.role === 'user' ? 'user' : 'model',
-                parts: [{ text: message.content }],
-            })),
-    });
+    // const buildGoogleGenAIPrompt = (messages: Message[]) => ({
+    //     contents: messages
+    //         .filter(message => message.role === 'user' || message.role === 'assistant')
+    //         .map(message => ({
+    //             role: message.role === 'user' ? 'user' : 'model',
+    //             parts: [{ text: message.content }],
+    //         })),
+    // });
 
     async function POST(req: Request) {
         const { messages } = await req.json();
@@ -38,10 +38,8 @@ function FinanceForm2({ className, }: any) {
         // .getGenerativeModel({ model: 'gemini-pro' })
         // .generateContentStream(buildGoogleGenAIPrompt(messages));
         const stream = client.streamChatCompletions('bizopenai24', messages)
-
         // Convert the response into a friendly text-stream
         // const stream = GoogleGenerativeAIStream(geminiStream);
-
         // Respond with the stream
         return stream;
     }
@@ -66,17 +64,17 @@ function FinanceForm2({ className, }: any) {
                 {
                     role: 'system',
                     content:
-                        `You are financial advisor giving personalized advice for an individual who is considering taking out a car loan and requires guidance on managing their expenses and minimizing risks. Please provide a comprehensive analysis of the individual's financial situation, we will provide you their monthly income in indian rupees, monthly expenses in indian rupees, variable expenses in indian rupees and also their current savings. Then, offer actionable insights on how they should allocate their income towards their loan repayment, daily expenses, and savings, while also identifying potential risks and proposing strategies to mitigate them. Additional suggestions on how to optimize their financial management and planning would be greatly appreciated.
-             
+                        `You are financial advisor giving personalized advice for an individual who is considering taking out a car loan and requires guidance on whether tp buy it or not. Please provide a short analysis of the individual's financial situation, we will provide you their monthly income in indian rupees, monthly expenses in indian rupees, variable expenses in indian rupees and also their current savings. Then, offer actionable insights on whether they should buy the car and how they should allocate their income towards their loan repayment, while also identifying potential risks and proposing strategies to mitigate them. Additional suggestions on how to optimize their financial management and planning would be greatly appreciated Finally give a Yes or No Decision.
+                        the output should be in markdown with all types of tags, try to add some sarcastic jokes in the text and add some emojis 
+
                         Here is some on information, I have a monthly income of ${values?.monthlyIncome ?? ''} and my monthly expenses go around to  ${values?.monthlyExpense ?? ''}, i have some variable expenses that go to  ${values?.variableExpense ?? ''}, but i manage to keep some savings that amount to  ${values?.savings ?? ''}, how should i manage my expenses
               
-                        I want to buy a car under a loan here are the details, the price of the car is ${carPrice}, the loan amount will be ${loanAmount}, the interest rate of the car is ${interest}% and the tenure is ${tenure} years
-                        `
-
+                        I want to buy a car under a loan here are the details, the price of the car is ${carPrice}, the loan amount will be ${loanAmount}, the interest rate of the car is ${interest}% and the tenure is ${tenure} years.`
                 },
                 {
                     role: 'user',
-                    content: `IMPORTANT: when analyzing the loan calcuate the values properly, reiterate on the values, and for a reasonable apporach, do not hallucinate on data.`
+                    content: `IMPORTANT: when analyzing the loan calcuate the values properly, reiterate on the values, and for a reasonable apporach, do not hallucinate on data.
+                    `
                 }
             ])
 
@@ -89,24 +87,32 @@ function FinanceForm2({ className, }: any) {
             } as Request);
 
 
-            // const reader = response.body?.getReader();
-            // if (!reader) return;
+            const reader = response.getReader();
+            let answer = ''
 
-            // const decoder = new TextDecoder();
-            // let done = false;
-            // let answer = ''
-            // while (!done) {
-            //     const { value, done: doneReading } = await reader.read();
-            //     done = doneReading;
-            //     const chunkValue = decoder.decode(value, { stream: true });
+            // read() returns a promise that resolves
+            // when a value has been received
+            //@ts-ignore
+            reader.read().then(function processText({ done, value }) {
 
-            //     answer = answer + chunkValue.replace('0:', '').replaceAll('\n', ' ')
-            //     let newChat = {
-            //         ...chati,
-            //         answer: answer
-            //     }
-            //     setCurrentChat(newChat)
-            // }
+                if (done) {
+                    console.log("Stream complete");
+                    return;
+                }
+                if (value.choices[0]?.delta) {
+
+                    answer = answer + value.choices[0].delta?.content
+                    let newChat = {
+                        ...chati,
+                        answer: answer
+                    }
+                    setCurrentChat(newChat)
+                }
+                return reader.read().then(processText);
+
+            })
+
+
 
             // const stream = await response.
         } catch (error) {

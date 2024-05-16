@@ -10,7 +10,7 @@ import { AppStates, useAppStore } from '../store/chat.store';
 import { uuid } from "uuidv4";
 import FinanceForm from "./FinanceForm";
 import FinanceForm2 from "./FinanceForm2";
-
+import Markdown from "react-markdown"
 function ChatItem({ chat }: any) {
 
   return <div className="space-y-2 p-3  font-light">
@@ -20,7 +20,11 @@ function ChatItem({ chat }: any) {
     </div>}
     <div className="flex">
       <p className=" w-[150px]">advisor : </p>
-      <p className="min-w-xl">{chat.answer.toString()}</p>
+      <p className="min-w-xl">
+        <Markdown>
+          {chat.answer.toString()}
+        </Markdown>
+      </p>
     </div>
   </div>
 }
