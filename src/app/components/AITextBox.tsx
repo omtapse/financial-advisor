@@ -119,7 +119,10 @@ function SearchComponent() {
   }
 
   return <div className={`flex  flex-row max-w-[790px] ${istemplateOpen ? 'absolute bottom-10' : ''} gap-2 items-center  border-2 border-[#333537] rounded-lg bg-[#1E1F20]`}>
-    <input placeholder="Hey Shivam, Ask me anything..." ref={inputRef} autoFocus={false}
+    <input placeholder="Hey Shivam, Ask me anything..."
+      ref={inputRef}
+
+      autoFocus={false}
       className={`p-4 mx-2 min-w-[700px] rounded-lg outline-none text-[#E0E2E5] placeholder:text-[#E0E2E5] bg-transparent ${!istemplateOpen ? ' animate-pulse' : ''}`} />
     <button>
       <Forward onClick={handleSubmitQuery} className="p-2 m-2 cursor-pointer" color="#226ce0" size={40} />
