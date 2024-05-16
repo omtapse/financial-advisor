@@ -1,5 +1,6 @@
 import AITextBox from "@/app/components/AITextBox";
 import Footer from "./components/Footer";
+import FinanceForm from "./components/FinanceForm";
 
 
 
