@@ -13,14 +13,14 @@ import FinanceForm2 from "./FinanceForm2";
 import Markdown from "react-markdown"
 function ChatItem({ chat }: any) {
 
-  return <div className="space-y-2 p-3  font-light">
-    {chat.question && <div className="flex ">
-      <p className="w-[150px]">you : </p>
-      <p>  {chat.question}</p>
+  return <div className="space-y-2 p-3  font-serif font-light">
+    {chat.question && <div className=" ">
+      <p className="w-[150px]">you </p>
+      <p className="pl-6">  {chat.question}</p>
     </div>}
-    <div className="flex">
-      <p className=" w-[150px]">advisor : </p>
-      <p className="min-w-xl">
+    <div className="">
+      <p className=" w-[150px] ">advisor </p>
+      <p className="min-w-xl pl-6 space-y-3">
         <Markdown>
           {chat.answer.toString()}
         </Markdown>
@@ -133,7 +133,7 @@ export function SearchComponent() {
         {
           role: 'system',
           content:
-            `Assume I'm a financial advisor seeking personalized advice for an individual who is considering taking out a loan (either a car loan or mortgage) and requires guidance on managing their expenses and minimizing risks. Please provide a comprehensive analysis of the individual's financial situation, including their income, expenses, and credit score (if applicable). Then, offer actionable insights on how they should allocate their income towards their loan repayment, daily expenses, and savings, while also identifying potential risks and proposing strategies to mitigate them. Additional suggestions on how to optimize their financial management and planning would be greatly appreciated.
+            `Assume I'm a financial advisor seeking personalized advice for an individual who is considering taking out a loan (either a car loan or mortgage) and requires guidance on managing their expenses and minimizing risks. Please provide a comprehensive analysis of the individual's financial situation, including their income, expenses, and credit score (if applicable). Then, offer actionable insights on how they should allocate their income towards their loan repayment, daily expenses, and savings, while also identifying potential risks and proposing strategies to mitigate them. Additional suggestions on how to optimize their financial management and planning would be greatly appreciated. and keep the explaination very simple, it should be a laymans terminology, the generated answer should be very simple to understand and short, do not over complicate the answer. 
             
             Here is some on information, I have a monthly income of ${values?.monthlyIncome ?? ''} and my monthly expenses go around to  ${values?.monthlyExpense ?? ''}, i have some variable expenses that go to  ${values?.variableExpense ?? ''}, but i manage to keep some savings that amount to  ${values?.savings ?? ''}, how should i manage my expenses
             
@@ -149,7 +149,6 @@ export function SearchComponent() {
         }
       ])
       let newMessages = messages.flat()
-      console.log('this is the new ', newMessages)
       const response = await POST({
         json: async () => ({
           messages: newMessages

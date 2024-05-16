@@ -64,17 +64,48 @@ function FinanceForm2({ className, }: any) {
                 {
                     role: 'system',
                     content:
-                        `You are financial advisor giving personalized advice for an individual who is considering taking out a car loan and requires guidance on whether tp buy it or not. Please provide a short analysis of the individual's financial situation, we will provide you their monthly income in indian rupees, monthly expenses in indian rupees, variable expenses in indian rupees and also their current savings. Then, offer actionable insights on whether they should buy the car and how they should allocate their income towards their loan repayment, while also identifying potential risks and proposing strategies to mitigate them. Additional suggestions on how to optimize their financial management and planning would be greatly appreciated Finally give a Yes or No Decision.
-                        the output should be in markdown with all types of tags, try to add some sarcastic jokes in the text and add some emojis 
+                        `You are financial advisor giving personalized advice for an individual who is considering taking out a car loan and requires guidance on whether to buy it or not. Please provide a very short analysis of the individual's financial situation, break down the answer in a step by step answer, with points and describe, I will provide you their monthly income, monthly expenses, variable expenses and also their current savings in indian rupees. 
+                        
+                        First give a Yes or No Decision. Then, offer actionable insights on why they should buy the car or not. Additional give them short suggestions on how to optimize their financial management and planning, the output should be in markdown with all types of tags.
 
-                        Here is some on information, I have a monthly income of ${values?.monthlyIncome ?? ''} and my monthly expenses go around to  ${values?.monthlyExpense ?? ''}, i have some variable expenses that go to  ${values?.variableExpense ?? ''}, but i manage to keep some savings that amount to  ${values?.savings ?? ''}, how should i manage my expenses
+                        Here is the information you need, his monthly income is ${values?.monthlyIncome ?? ''}, his monthly expenses go around  ${values?.monthlyExpense ?? ''}, his variable expenses go around ${values?.variableExpense ?? ''}, and he manages to keep some savings that amount is  ${values?.savings ?? ''}.
               
-                        I want to buy a car under a loan here are the details, the price of the car is ${carPrice}, the loan amount will be ${loanAmount}, the interest rate of the car is ${interest}% and the tenure is ${tenure} years.`
+                        Here are the details for the car, the price of the car is ${carPrice}, the loan amount will be ${loanAmount}, the interest rate of the car is ${interest}% and the tenure is ${tenure} years. ,
+
+
+                        After analyzing the individual's financial situation, here is my breakdown of their income and expenses:
+
+                        system :
+In conclusion, my advice for this individual is No, it is not advisable to take out a car loan at the moment.
+Explaination:
+Monthly income: ₹1000
+Monthly expenses: ₹100
+Variable expenses: ₹100
+Monthly savings: ₹100
+With a monthly income of ₹1000 and expenses of ₹200, the individual is left with ₹800 in disposable income.
+
+Now, let's analyze the car loan:
+
+Price of the car: ₹100
+Loan amount: ₹100
+Interest rate: 10%
+Tenure: 10 years
+Using an online EMI calculator, the monthly EMI for this loan would be approximately ₹1.32 for 10 years.
+
+Based on the individual's income, expenses, and disposable income, it is not advisable to take out a car loan at the moment. As the monthly EMI will add to the expenses, and in case of an emergency, the individual may struggle to cover it.
+
+It would be better to save up for the car and purchase it outright instead of getting into a long-term debt. Additionally, it would be recommended to create a personal budget and limit the variable expenses to build up savings and better manage their financial situation.
+
+                        `
                 },
                 {
                     role: 'user',
-                    content: `IMPORTANT: when analyzing the loan calcuate the values properly, reiterate on the values, and for a reasonable apporach, do not hallucinate on data.
+                    content: `IMPORTANT: when analyzing the loan calcuate the values properly, reiterate on the values, and for a reasonable apporach, do not hallucinate on data. give the answer in markdown format, with all the tags for bold large subscript
                     `
+                },
+                {
+                    role: 'system',
+                    content: `the answer...`
                 }
             ])
 
@@ -99,9 +130,8 @@ function FinanceForm2({ className, }: any) {
                     console.log("Stream complete");
                     return;
                 }
-                if (value.choices[0]?.delta) {
-
-                    answer = answer + value.choices[0].delta?.content
+                if (value.choices[0]?.delta && value.choices[0].delta.content) {
+                    answer = answer + value.choices[0].delta.content
                     let newChat = {
                         ...chati,
                         answer: answer
