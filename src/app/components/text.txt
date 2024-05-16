@@ -1,0 +1,22 @@
+{/* <div className='flex flex-col p-4 gap-2'>
+        <h3 className='text-[#E0E2E5] text-md p-0'>Any Investments?</h3>
+        
+        <div className='flex flex-row gap-4'>
+
+        <div className='flex flex-row gap-2 items-center'>
+            <input type='checkbox' className='h-[20px] rounded-2xl'/>
+            <h3 className='text-[#E0E2E5] text-md p-0'>Stocks</h3>
+        </div>
+
+        <div className='flex flex-row gap-2 items-center'>
+            <input type='checkbox' className='h-[20px] rounded-2xl'/>
+            <h3 className='text-[#E0E2E5] text-md p-0'>Mutual Funds</h3>
+        </div>
+
+        <div className='flex flex-row gap-2 items-center'>
+            <input type='checkbox' className='h-[20px] rounded-2xl'/>
+            <h3 className='text-[#E0E2E5] text-md p-0'>Gold</h3>
+        </div>
+
+        </div>
+    </div> */}

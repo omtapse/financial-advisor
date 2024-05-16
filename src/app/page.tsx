@@ -7,6 +7,10 @@ import Footer from "./components/Footer";
 import FinanceForm from "./components/FinanceForm";
 import FinanceForm2 from "./components/FinanceForm2";
 import UPIIntegration from "./components/UPIIntegration";
+import PaymentHistory from "./components/PaymentHistory";
+import MutualFunds from "./components/MutualFunds";
+import AskLoan from "./components/AskLoan";
+import LoanDetails from "./components/LoanDetails";
 
 
 
@@ -19,9 +23,14 @@ export default function Home() {
         
         <Footer/> */}
 
-        <FinanceForm/>
+        {/* <FinanceForm/> */}
         <FinanceForm2/>
-        <UPIIntegration/>
+        <AskLoan/>
+        <LoanDetails/>
+        
+        {/* <PaymentHistory/>  */}
+
+        {/* <MutualFunds/> */}
   
     </main>
   );
