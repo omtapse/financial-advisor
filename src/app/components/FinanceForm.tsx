@@ -5,7 +5,8 @@ import React from 'react'
 type Props = {}
 
 function FinanceForm({}: Props) {
-  return <div className='flex flex-col border-white min-h-[500px] min-w-[400px] rounded-lg bg-[#1E1F20]'>
+  return (
+  <div className='flex flex-col border-white min-h-[500px] min-w-[400px] rounded-lg bg-[#1E1F20]'>
     <div>
         <h3 className='text-[#E0E2E5] text-[20px] p-5'>Let's Get Some Info, Before We Get Started.</h3>
     </div>
@@ -35,6 +36,7 @@ function FinanceForm({}: Props) {
     <ArrowRight size={20} color='#000000'/>
     </div>
   </div>
+  )
 }
 
 export default FinanceForm
