@@ -5,7 +5,7 @@ type Props = {}
 
 function DidYouKnow({}: Props) {
   return (
-      <div className="flex flex-row justify-evenly items-center gap-3">
+      <div className=" flex flex-row justify-evenly items-center gap-3">
 
           <div className="flex flex-col bg-[#1E1F20] hover:bg-[#333537] max-w-[200px] max-h-[200px] p-4 rounded-lg cursor-pointer text-[#E0E2E5] font-light gap-20">
               <p className='text-sm'>Create a study plan for learning a language</p>

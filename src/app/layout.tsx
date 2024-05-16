@@ -15,7 +15,7 @@ const calSans = localFont({
       weight: '700'
     }
   ],
-  variable: '--font-calsans'
+  variable: '--font-raleway'
 })
 
 export default function RootLayout({
