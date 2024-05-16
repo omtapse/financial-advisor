@@ -6,9 +6,11 @@ import { GoogleGenerativeAIStream, Message, StreamingTextResponse } from 'ai';
 import { Forward } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
-import { useAppStore } from '../store/chat.store';
+import { AppStates, useAppStore } from '../store/chat.store';
 import { uuid } from "uuidv4";
 import Markdown from "react-markdown";
+import FinanceForm from "./FinanceForm";
+import FinanceForm2 from "./FinanceForm2";
 
 function ChatItem({ chat }: any) {
 
@@ -29,7 +31,7 @@ type Props = {}
 
 function ChatBox() {
   const { ref, inView, entry } = useInView();
-  const { chat, currentChat } = useAppStore()
+  const { chat, infoState, setInfoState, currentChat } = useAppStore()
 
   useEffect(() => {
     if (!inView) {
@@ -46,6 +48,9 @@ function ChatBox() {
     <div className="self-start">
       <TextHello />
     </div>
+
+    <FinanceForm className={`${infoState === AppStates.MAIN ? '' : ''}  `} />
+    <FinanceForm2 />
     <div className="text-white font-sans text-justify bg-[#1E1F20] rounded-xl w-full mb-20 ">
       {Array.isArray(chat) && chat.map((item) => <ChatItem key={item._id} chat={item} />)}
       {currentChat && <ChatItem ref={ref} key={currentChat._id} chat={currentChat} />}
