@@ -8,20 +8,19 @@ import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { AppStates, useAppStore } from '../store/chat.store';
 import { uuid } from "uuidv4";
-import Markdown from "react-markdown";
 import FinanceForm from "./FinanceForm";
 import FinanceForm2 from "./FinanceForm2";
 
 function ChatItem({ chat }: any) {
 
-  return <div className="space-y-2 p-3 max-w-xl font-light">
-    <div className="flex ">
-      <span>you : </span>
+  return <div className="space-y-2 p-3  font-light">
+    {chat.question && <div className="flex ">
+      <p className="w-[150px]">you : </p>
       <p>  {chat.question}</p>
-    </div>
+    </div>}
     <div className="flex">
-      <span className="w-max">advisor : </span>
-      {chat.answer}
+      <p className=" w-[150px]">advisor : </p>
+      <p className="min-w-xl">{chat.answer.toString()}</p>
     </div>
   </div>
 }
@@ -37,7 +36,6 @@ function ChatBox() {
     if (!inView) {
       entry?.target.scrollTo({ behavior: 'smooth' })
     }
-
   }, [inView])
 
   return <div className="h-screen max-w-3xl overflow-auto space-y-3 mb-12 no-bar">
@@ -50,11 +48,9 @@ function ChatBox() {
       <DidYouKnow />
     </div>
 
-
-
     <FinanceForm setInfoState={setInfoState} className={`${istemplateOpen ? 'h-[500px]' : 'h-[1px]'}  overflow-hidden  transition-all duration-300 `} />
-    <FinanceForm2 className={`${istemplateOpen && infoState === AppStates.EXTRA ? 'h-[350px]' : ' h-[1px]'} transition-all duration-300 overflow-hidden `} />
-    <div className="text-white font-sans text-justify bg-[#1E1F20] rounded-xl w-full mb-20 ">
+    <FinanceForm2 className={`${istemplateOpen && infoState === AppStates.EXTRA ? 'h-[375px]' : ' h-[1px]'} transition-all duration-300 overflow-hidden `} />
+    <div className="text-white  text-justify bg-[#1E1F20] rounded-xl w-full mb-20 ">
       {Array.isArray(chat) && chat.map((item) => <ChatItem key={item._id} chat={item} />)}
       {currentChat && <ChatItem ref={ref} key={currentChat._id} chat={currentChat} />}
     </div>
@@ -72,15 +68,14 @@ const AITextBox = (props: Props) => {
 
       <p className='justify-center items-center text-[#EEEEEE] text-sm'>finverse may display inaccurate info, including about people, so double-check its responses. <u>Your privacy & finverse</u></p>
     </div>
-
   )
 }
 
 export default AITextBox
 
 
-function SearchComponent() {
-  const { istemplateOpen, chat, currentChat, setCurrentChat, pushChat } = useAppStore();
+export function SearchComponent() {
+  const { istemplateOpen, loanValues, values, chat, currentChat, setCurrentChat, pushChat } = useAppStore();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '');
@@ -133,7 +128,16 @@ function SearchComponent() {
       messages.push([
         {
           role: 'system',
-          content: 'You are a helpful assistant.'
+          content:
+            `Assume I'm a financial advisor seeking personalized advice for an individual who is considering taking out a loan (either a car loan or mortgage) and requires guidance on managing their expenses and minimizing risks. Please provide a comprehensive analysis of the individual's financial situation, including their income, expenses, and credit score (if applicable). Then, offer actionable insights on how they should allocate their income towards their loan repayment, daily expenses, and savings, while also identifying potential risks and proposing strategies to mitigate them. Additional suggestions on how to optimize their financial management and planning would be greatly appreciated.
+            
+            Here is some on information, I have a monthly income of ${values?.monthlyIncome ?? ''} and my monthly expenses go around to  ${values?.monthlyExpense ?? ''}, i have some variable expenses that go to  ${values?.variableExpense ?? ''}, but i manage to keep some savings that amount to  ${values?.savings ?? ''}, how should i manage my expenses
+            
+            I want to buy a car under a loan here are the details, the price of the car is ${loanValues?.carPrice}, the loan amount will be ${loanValues?.loanAmount}, the interest rate of the car is ${loanValues?.interest}% and the tenure is ${loanValues?.tenure}
+            
+            IMPORTANT: when analyzing the loan calcuate the values properly, reiterate on the values, and for a reasonable apporach, do not hallucinate on data
+
+            `
         },
         {
           role: 'user',
@@ -141,7 +145,7 @@ function SearchComponent() {
         }
       ])
       let newMessages = messages.flat()
-
+      console.log('this is the new ', newMessages)
       const response = await POST({
         json: async () => ({
           messages: newMessages
@@ -159,7 +163,7 @@ function SearchComponent() {
         done = doneReading;
         const chunkValue = decoder.decode(value, { stream: true });
 
-        answer = answer + chunkValue.replace('0:', '')
+        answer = answer + chunkValue.replace('0:', '').replaceAll('\n', ' ')
         let newChat = {
           ...chati,
           answer: answer

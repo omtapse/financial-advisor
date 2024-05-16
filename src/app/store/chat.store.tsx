@@ -15,6 +15,13 @@ interface appStore {
     setCurrentChat: (data: any) => void
     pushChat: (chat: any) => void
 
+    loanValues: null | {
+        carPrice: string,
+        loanAmount: string,
+        interest: string,
+        tenure: string
+    }
+    setLoanValues: (data: any) => void
     values: null | {
         monthlyIncome: string,
         monthlyExpense: string,
@@ -30,6 +37,10 @@ export const useAppStore = create<appStore>((set, get) => ({
         monthlyExpense: '',
         variableExpense: '',
         savings: ''
+    },
+    loanValues: null,
+    setLoanValues(data) {
+        set({ loanValues: data })
     },
     setValues(data) {
         set({ values: data })
