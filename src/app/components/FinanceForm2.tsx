@@ -35,7 +35,6 @@ function FinanceForm2({}: Props) {
         </div>
     </div>
 
-
     <div className='flex flex-col p-4 gap-2'>
         <h3 className='text-[#E0E2E5] text-md p-0'>Future Goals</h3>
         

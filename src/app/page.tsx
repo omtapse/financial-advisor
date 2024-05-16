@@ -6,6 +6,7 @@ import SideBar from "./components/SideBar";
 import Footer from "./components/Footer";
 import FinanceForm from "./components/FinanceForm";
 import FinanceForm2 from "./components/FinanceForm2";
+import UPIIntegration from "./components/UPIIntegration";
 
 
 
@@ -20,6 +21,7 @@ export default function Home() {
 
         <FinanceForm/>
         <FinanceForm2/>
+        <UPIIntegration/>
   
     </main>
   );
