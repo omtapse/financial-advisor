@@ -7,7 +7,7 @@ interface appStore {
     chat: Array<any> | []
     currentChat: any | null
 
-    pushChat: (chat: any) => void
+    pushChat: (chat: any) => void;
 
 }
 
