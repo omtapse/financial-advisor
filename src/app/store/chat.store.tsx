@@ -20,10 +20,6 @@ export const useAppStore = create<appStore>((set, get) => ({
     istemplateOpen: false,
     infoState: null,
     setCurrentChat(chat: any) {
-        // if (get().currentChat) {
-        //     get().pushChat(get().currentChat)
-        //     set({ currentChat: null })
-        // }
         set({ currentChat: chat })
     },
     setInfoState(state) {
@@ -33,14 +29,9 @@ export const useAppStore = create<appStore>((set, get) => ({
         console.log(get().istemplateOpen)
         set({ istemplateOpen: !get().istemplateOpen })
     },
-    chat: [{ _id: 1, answer: 'answer the wsiaasdfk j', question: 'whati adskfjasldkfa' },
-    { _id: 2, answer: 'answer the wsiaasdfk j', question: 'whati adskfjasldkfa' },
-    { _id: 3, answer: 'answer the wsiaasdfk j', question: 'whati adskfjasldkfa' },
-    { _id: 4, answer: 'answer the wsiaasdfk j', question: 'whati adskfjasldkfa' },
-    { _id: 6, answer: 'answer the wsiaasdfk j', question: 'whati adskfjasldkfa' },
-    ],
+    chat: [],
     currentChat: null,
     pushChat(chat) {
-        set({ chat: [...get().chat, chat] })
+        set({ chat: [...get().chat, chat], currentChat: null })
     },
 }))

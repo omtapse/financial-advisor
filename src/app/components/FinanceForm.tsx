@@ -1,12 +1,13 @@
 "use client"
 import { ArrowRight } from '@phosphor-icons/react'
 import { AppStates } from '../store/chat.store'
+import { cn } from '@/lib/utils'
 
 
 function FinanceForm({ className, setInfoState }: any) {
 
   return (
-    <div className='flex flex-col rounded-lg bg-[#1E1F20]'>
+    <div className={cn(className, ' flex flex-col rounded-lg bg-[#1E1F20]')}>
       <div>
         <h3 className='text-[#E0E2E5] text-[20px] p-5'>Let's Get Some Info, Before We Get Started.</h3>
       </div>

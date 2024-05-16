@@ -31,7 +31,7 @@ type Props = {}
 
 function ChatBox() {
   const { ref, inView, entry } = useInView();
-  const { chat, infoState, setInfoState, currentChat } = useAppStore()
+  const { chat, infoState, istemplateOpen, setInfoState, currentChat } = useAppStore()
 
   useEffect(() => {
     if (!inView) {
@@ -40,7 +40,7 @@ function ChatBox() {
 
   }, [inView])
 
-  return <div className="h-screen max-w-3xl overflow-auto no-bar">
+  return <div className="h-screen max-w-3xl overflow-auto space-y-3 mb-12 no-bar">
     <div className="  no-bar self-start">
       <DidYouKnow />
     </div>
@@ -49,8 +49,8 @@ function ChatBox() {
       <TextHello />
     </div>
 
-    <FinanceForm className={`${infoState === AppStates.MAIN ? '' : ''}  `} />
-    <FinanceForm2 />
+    <FinanceForm setInfoState={setInfoState} className={`${istemplateOpen ? 'h-[500px]' : 'h-[1px]'}  overflow-hidden  transition-all duration-300 `} />
+    <FinanceForm2 className={`${istemplateOpen && infoState === AppStates.EXTRA ? 'h-[350px]' : ' h-[1px]'} transition-all duration-300 overflow-hidden `} />
     <div className="text-white font-sans text-justify bg-[#1E1F20] rounded-xl w-full mb-20 ">
       {Array.isArray(chat) && chat.map((item) => <ChatItem key={item._id} chat={item} />)}
       {currentChat && <ChatItem ref={ref} key={currentChat._id} chat={currentChat} />}
@@ -77,7 +77,7 @@ export default AITextBox
 
 
 function SearchComponent() {
-  const { istemplateOpen, chat, setCurrentChat } = useAppStore();
+  const { istemplateOpen, chat, currentChat, setCurrentChat, pushChat } = useAppStore();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '');
@@ -107,12 +107,15 @@ function SearchComponent() {
   }
 
   const handleSubmitQuery = async () => {
+    if (currentChat)
+      pushChat(currentChat)
+
     const query = inputRef.current?.value
     if (!query) return
     inputRef.current.value = '';
     inputRef.current.focus();
 
-    const chat = {
+    let chat = {
       _id: uuid(),
       question: query,
       answer: ''
@@ -147,12 +150,11 @@ function SearchComponent() {
         const chunkValue = decoder.decode(value, { stream: true });
 
         answer = answer + chunkValue.replace('0:', '')
-        const chat = {
-          _id: uuid(),
-          question: query,
+        let newChat = {
+          ...chat,
           answer: answer
         }
-        setCurrentChat(chat)
+        setCurrentChat(newChat)
       }
 
       // const stream = await response.
