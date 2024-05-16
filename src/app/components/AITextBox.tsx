@@ -14,7 +14,7 @@ import FinanceForm2 from "./FinanceForm2";
 
 function ChatItem({ chat }: any) {
 
-  return <div className="space-y-4 p-6 max-w-xl font-light">
+  return <div className="space-y-2 p-3 max-w-xl font-light">
     <div className="flex ">
       <span>you : </span>
       <p>  {chat.question}</p>
